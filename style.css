@@ -1,0 +1,115 @@
+:root {
+  --ink: #050712;
+  --text: #eef0ff;
+  --violet: #6a3df0;
+  --coral: #ff5fa2;
+  --teal: #1fb6c9;
+  --ember: #ff8a3d;
+}
+
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: auto; }
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ---------- Fixed background ---------- */
+.sky, .world { position: fixed; inset: 0; }
+.sky { z-index: 0; background: linear-gradient(#05060f, #1a1f4a); }
+.world { z-index: 1; overflow: hidden; pointer-events: none; }
+
+/* Each layer is an empty box that JS moves up at its own speed */
+.layer { position: absolute; left: -6%; top: 0; width: 112%; height: 0; will-change: transform; }
+
+/* Every object is sized with font-size, so shadows can use em units */
+.obj { position: absolute; width: 1em; height: 1em; transform: translate(-50%, -50%) rotate(var(--rot, 0deg)); }
+
+.star { background: #fff; border-radius: 50%; animation: twinkle 3s ease-in-out infinite; animation-delay: var(--d, 0s); }
+@keyframes twinkle { 50% { opacity: .25; } }
+
+.nebula {
+  background: radial-gradient(circle, var(--c1), transparent 65%);
+  opacity: .38; filter: blur(40px); mix-blend-mode: screen;
+}
+
+.planet {
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 28%, var(--c1), var(--c2) 72%);
+  box-shadow: inset -.12em -.09em .26em rgba(0, 0, 0, .6);
+}
+.ring::after {
+  content: ""; position: absolute; left: -48%; right: -48%; top: 34%; bottom: 34%;
+  border: .05em solid rgba(255, 224, 170, .55); border-radius: 50%;
+  box-shadow: 0 0 0 .025em rgba(255, 190, 120, .25);
+  transform: rotate(-16deg);
+}
+
+.sun {
+  background: radial-gradient(circle, #fffbe6 0 26%, #ffc857 38%, rgba(255, 120, 40, .55) 54%, transparent 70%);
+}
+
+.asteroid { background: radial-gradient(circle at 30% 28%, #a39789, #3b3430 80%); }
+.a0 { clip-path: polygon(10% 30%, 40% 4%, 78% 12%, 96% 48%, 74% 92%, 30% 96%, 4% 62%); }
+.a1 { clip-path: polygon(20% 8%, 66% 2%, 94% 34%, 88% 78%, 50% 98%, 8% 76%, 4% 36%); }
+.a2 { clip-path: polygon(6% 44%, 32% 6%, 70% 10%, 98% 40%, 80% 86%, 36% 92%); }
+.rock-dark { background: radial-gradient(circle at 30% 28%, #5a4f48, #120e0c 85%); filter: blur(3px); }
+
+.dust { background: #fff; border-radius: 50%; opacity: .45; }
+
+.comet {
+  height: .012em;
+  background: linear-gradient(90deg, #fff, rgba(140, 220, 255, .6) 18%, transparent);
+  border-radius: 50%;
+  box-shadow: 0 0 14px rgba(190, 233, 255, .8);
+}
+
+/* ---------- Ship ---------- */
+.ship {
+  position: fixed; z-index: 2; left: 50%; bottom: 11vh; height: auto;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 0 14px rgba(106, 61, 240, .6));
+}
+.thrust { transform-box: fill-box; transform-origin: 50% 0; transform: scaleY(var(--thrust, 1)); transition: transform .15s; }
+.flicker { transform-box: fill-box; transform-origin: 50% 0; animation: flicker .12s alternate infinite; }
+@keyframes flicker { to { transform: scaleY(.82); } }
+
+/* ---------- Progress ---------- */
+.progress { position: fixed; z-index: 5; top: 0; left: 0; right: 0; height: 3px; }
+.progress span {
+  display: block; height: 100%; transform-origin: left; transform: scaleX(0);
+  background: linear-gradient(90deg, var(--teal), var(--coral), var(--ember));
+}
+
+/* ---------- Story ---------- */
+main { position: relative; z-index: 3; }
+.scene { min-height: 100vh; display: flex; align-items: center; padding: 0 8vw; }
+.scene.left { justify-content: flex-start; }
+.scene.right { justify-content: flex-end; }
+.scene.hero, .scene.end { justify-content: center; text-align: center; }
+
+.caption { max-width: 30rem; opacity: 0; text-shadow: 0 2px 24px rgba(0, 0, 0, .7); }
+.hero .caption { opacity: 1; max-width: 38rem; }
+h1, h2 { font-family: "Unbounded", system-ui, sans-serif; line-height: 1.1; margin-bottom: 1rem; }
+h1 { font-size: clamp(2.4rem, 8vw, 5.4rem); font-weight: 600; letter-spacing: -.02em; }
+h2 { font-size: clamp(1.8rem, 4.5vw, 3rem); font-weight: 300; letter-spacing: -.01em; }
+.caption p { font-size: 1.1rem; color: rgba(238, 240, 255, .85); }
+
+button {
+  margin-top: 1.5rem; padding: .8rem 1.6rem; border: 0; border-radius: 999px; cursor: pointer;
+  font: 600 1rem "Figtree", system-ui, sans-serif; color: #2a1200; background: #ffd89a;
+  transition: transform .2s, background .2s;
+}
+button:hover { transform: scale(1.05); background: #fff0cf; }
+button:focus-visible { outline: 3px solid var(--text); outline-offset: 3px; }
+
+@media (max-width: 600px) {
+  .scene { padding: 0 6vw; }
+  .scene.left, .scene.right { justify-content: flex-start; align-items: flex-start; padding-top: 18vh; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .star, .flicker { animation: none; }
+}

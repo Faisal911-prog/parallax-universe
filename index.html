@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Parallax Universe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600&family=Unbounded:wght@300;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Fixed background: sky colour + all parallax layers (built by script.js) -->
+  <div class="sky" id="sky"></div>
+  <div class="world" id="world" aria-hidden="true"></div>
+
+  <!-- Scroll progress -->
+  <div class="progress" aria-hidden="true"><span id="bar"></span></div>
+
+  <!-- The ship stays in place while the universe moves past it -->
+  <svg class="ship" id="ship" viewBox="0 0 60 130" width="54" aria-hidden="true">
+    <g class="thrust"><g class="flicker">
+      <path d="M23 84 Q30 128 37 84Z" fill="#ffb347"/>
+      <path d="M26.5 84 Q30 110 33.5 84Z" fill="#fff4c2"/>
+    </g></g>
+    <path d="M16 56 L3 84 L16 76Z M44 56 L57 84 L44 76Z" fill="#6a3df0"/>
+    <path d="M30 4 Q47 30 44 78 L16 78 Q13 30 30 4Z" fill="#eef0ff"/>
+    <circle cx="30" cy="38" r="7" fill="#1a1f4a" stroke="#9fb4ff" stroke-width="2"/>
+    <rect x="20" y="78" width="20" height="6" rx="2" fill="#4a5578"/>
+  </svg>
+
+  <!-- Story: one scene per screen. Captions fade with scroll position. -->
+  <main>
+    <section class="scene hero">
+      <div class="caption">
+        <h1>Parallax Universe</h1>
+        <p>Scroll down. Every layer behind the ship moves at its own speed.</p>
+      </div>
+    </section>
+
+    <section class="scene left">
+      <div class="caption">
+        <h2>Nebula drift</h2>
+        <p>The clouds are the slowest layer, so they feel the farthest away. Stars in front of them move a little faster.</p>
+      </div>
+    </section>
+
+    <section class="scene right">
+      <div class="caption">
+        <h2>The ringed giant</h2>
+        <p>Big planets sit in the middle depth. Small, faint planets behind them barely move.</p>
+      </div>
+    </section>
+
+    <section class="scene left">
+      <div class="caption">
+        <h2>Asteroid field</h2>
+        <p>Rocks near the ship rush past and spin. Blurred ones close to the camera move fastest of all.</p>
+      </div>
+    </section>
+
+    <section class="scene right">
+      <div class="caption">
+        <h2>Comet crossing</h2>
+        <p>Some objects also drift sideways while you scroll, so they cut across the view.</p>
+      </div>
+    </section>
+
+    <section class="scene end">
+      <div class="caption">
+        <h2>A new sun</h2>
+        <p>You made it through every layer.</p>
+        <button id="again" type="button">Fly again</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
